@@ -5,7 +5,7 @@
 #include <sstream>
 #include <memory>
 
-#include "render_buffer.hpp"
+// #include "render_buffer.hpp"
 #include "data.hpp"
 
 class image
