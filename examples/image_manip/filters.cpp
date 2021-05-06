@@ -130,12 +130,12 @@ void filters::negative::apply()
 filters::contrast::contrast(int value) : image_{},
                                          f_value_{
                                              static_cast<double>(
-                                                 (259 * (value + 255)) / (255 * (259 - value)))},
+                                                 (259.0 * (value + 255.0)) / (255.0 * (259.0 - value)))},
                                          contrast_effect_matrix_{
-                                             {f_value_, 0, 0, 128},
-                                             {0, f_value_, 0, 128},
-                                             {0, 0, f_value_, 128},
-                                             {0, 0, 0, 1}}
+                                             {f_value_, 0, 0, 128.0},
+                                             {0, f_value_, 0, 128.0},
+                                             {0, 0, f_value_, 128.0},
+                                             {0, 0, 0, 1.0}}
 
 {
     assert((value >= -100 && value <= 100));
@@ -181,9 +181,10 @@ void filters::contrast::apply()
 }
 
 filters::gamma_correction::gamma_correction(int value) : image_{},
-                                                         f_value_{value != 0 ? static_cast<double>(1 / value) : 0}
+                                                         f_value_{value != 0 ? static_cast<double>(1.0 / value) : 0}
 {
     assert((value > 0 && value <= 10));
+    assert((f_value_ != 0));
 }
 
 void filters::gamma_correction::set_span(std::span<data::colour_data::pixel_colour_t> image)
@@ -201,9 +202,9 @@ void filters::gamma_correction::apply()
         const unsigned int g = std::get<1>(pixel_colour);
         const unsigned int b = std::get<2>(pixel_colour);
 
-        const unsigned int new_r_value = static_cast<unsigned int>(255 * std::pow(r / 255, f_value_));
-        const unsigned int new_g_value = static_cast<unsigned int>(255 * std::pow(g / 255, f_value_));
-        const unsigned int new_b_value = static_cast<unsigned int>(255 * std::pow(b / 255, f_value_));
+        const unsigned int new_r_value = static_cast<unsigned int>(255.0 * std::pow(r / 255.0, f_value_));
+        const unsigned int new_g_value = static_cast<unsigned int>(255.0 * std::pow(g / 255.0, f_value_));
+        const unsigned int new_b_value = static_cast<unsigned int>(255.0 * std::pow(b / 255.0, f_value_));
 
         std::get<0>(pixel_colour) = std::clamp(new_r_value, Darkest, Brightest);
         std::get<1>(pixel_colour) = std::clamp(new_g_value, Darkest, Brightest);
