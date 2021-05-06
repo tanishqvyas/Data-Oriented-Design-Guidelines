@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <cassert>
 #include <cmath>
+#include <variant>
 
 #include "data.hpp"
 
@@ -94,4 +95,11 @@ namespace filters
         std::span<data::colour_data::pixel_colour_t> image_;
         double f_value_;
     };
+
+    using filter_types = std::variant<grey_scale,
+                                      sepia,
+                                      channel_adjustment,
+                                      negative,
+                                      contrast,
+                                      gamma_correction>;
 }
