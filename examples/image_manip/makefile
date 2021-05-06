@@ -4,7 +4,7 @@ CPPFLAGS = -DDEBUG=${DEBUG_VAL} -Wall -Werror -std=c++2a -pedantic -Weffc++ -g
 
 all: main.out
 
-main.out: main.o animations.o
+main.out: main.o animations.o data.hpp
 	${CC} $^ ${CPPFLAGS} -o main.out
 
 main.o: main.cpp
