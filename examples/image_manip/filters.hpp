@@ -15,14 +15,14 @@ namespace filters
     class grey_scale
     {
     public:
-        grey_scale(std::span<data::colour_data::pixel_colour_t>);
-
+        grey_scale();
+        void set_span(std::span<data::colour_data::pixel_colour_t>);
         void apply();
 
     private:
         std::span<data::colour_data::pixel_colour_t> image_;
 
-        const double val_ = 1 / 3;
+        const double val_ = 1.0 / 3.0;
         const double grey_scale_matrix[3][3] = {{val_, val_, val_},
                                                 {val_, val_, val_},
                                                 {val_, val_, val_}};
@@ -31,8 +31,8 @@ namespace filters
     class sepia
     {
     public:
-        sepia(std::span<data::colour_data::pixel_colour_t>);
-
+        sepia();
+        void set_span(std::span<data::colour_data::pixel_colour_t>);
         void apply();
 
     private:
@@ -46,8 +46,8 @@ namespace filters
     class channel_adjustment
     {
     public:
-        channel_adjustment(int[3], std::span<data::colour_data::pixel_colour_t>);
-
+        channel_adjustment(int[3]);
+        void set_span(std::span<data::colour_data::pixel_colour_t>);
         void apply();
 
     private:
@@ -58,8 +58,8 @@ namespace filters
     class negative
     {
     public:
-        negative(std::span<data::colour_data::pixel_colour_t>);
-
+        negative();
+        void set_span(std::span<data::colour_data::pixel_colour_t>);
         void apply();
 
     private:
@@ -73,8 +73,8 @@ namespace filters
     class contrast
     {
     public:
-        contrast(std::span<data::colour_data::pixel_colour_t>, int);
-
+        contrast(int);
+        void set_span(std::span<data::colour_data::pixel_colour_t>);
         void apply();
 
     private:
@@ -87,8 +87,8 @@ namespace filters
     class gamma_correction
     {
     public:
-        gamma_correction(std::span<data::colour_data::pixel_colour_t>, int);
-
+        gamma_correction(int);
+        void set_span(std::span<data::colour_data::pixel_colour_t>);
         void apply();
 
     private:
@@ -96,7 +96,8 @@ namespace filters
         double f_value_;
     };
 
-    using filter_types = std::variant<grey_scale,
+    using filter_types = std::variant<std::monostate,
+                                      grey_scale,
                                       sepia,
                                       channel_adjustment,
                                       negative,
