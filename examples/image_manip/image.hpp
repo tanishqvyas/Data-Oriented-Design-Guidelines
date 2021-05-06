@@ -15,15 +15,18 @@ class image
 public:
     image(const std::string &);
     image(const image &);
-    data::colour_data::pixel_colour_t *write_colours_to_buffer(data::colour_data::pixel_colour_t *);
-    void write_filters_to_buffer(std::vector<filters::filter_types>&);
+    image &add_filter(filters::filter_types);
+    void write_back(const std::string &);
     ~image();
 
 private:
     std::shared_ptr<std::fstream> image_file_;
     unsigned int height_;
     unsigned int width_;
-    std::vector<filters::filter_types> filter_;
+    std::vector<filters::filter_types> filter_vec_;
     std::span<data::colour_data::pixel_colour_t> image_span_;
+
     friend render_buffer;
+    data::colour_data::pixel_colour_t *write_colours_to_buffer(data::colour_data::pixel_colour_t *);
+    void write_filters_to_buffer(std::vector<filters::filter_types> &);
 };
