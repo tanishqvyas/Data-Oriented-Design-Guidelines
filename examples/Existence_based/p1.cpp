@@ -49,7 +49,7 @@ int main(int argc, char *argv[]) {
     AgentProcessor obj{N};
     std::srand(1);
 
-    for(std::size_t i = 0; i < N; i+=20) {
+    for(std::size_t i = 0; i < N; i+=200) {
         obj.take_damage(obj.agent[i]);
     }
 
