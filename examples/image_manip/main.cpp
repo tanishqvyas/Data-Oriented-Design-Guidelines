@@ -3,8 +3,10 @@
 #include <vector>
 
 #include "image.hpp"
-#include "animations.hpp"
+#include "filters.hpp"
 #include "data.hpp"
+#include "render_buffer.hpp"
+
 
 int main()
 {
@@ -19,8 +21,10 @@ int main()
         // std::cout << temp_ << std::endl;
         // std::ifstream file(temp_);
         // auto j = image{temp_};
-        image_vec.push_back(std::move(image{temp_}));
+        image_vec.push_back(image{temp_});
     }
+
+
 
     // for (auto &ele : image_vec)
     // {
