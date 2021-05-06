@@ -7,7 +7,6 @@ class Player
 
 private:
 public:
-    bool player_is_alive;
     int player_health;
     std::string player_name;
     int player_power;
@@ -25,31 +24,31 @@ public:
 
     void decrease_health()
     {
-        player_health -= (std::rand() % 40) + 1;
-        //    player_health -=  10;
+        // player_health -= (std::rand() % 40) + 1;
+           player_health -=  10;
     }
 };
 
 int main(int argc, char const *argv[])
 {
-    std::srand(1);
+    // std::srand(1);
     int N = 1000000;
 
     std::vector<Player> v(N, Player());
     std::vector<bool> is_alive(N, true);
 
     // Appraoch 1
-    bool flag = true;
-    while (flag)
-    {
-        flag = false;
+    // bool flag = true;
+    // while (flag)
+    // {
+        // flag = false;
         for (int i = 0; i < N; i++)
         {
             if (is_alive[i])
             {
-
-                v[i].decrease_health();
-                flag = true;
+            	
+                // v[i].decrease_health();
+                // // flag = true;
 
                 if (v[i].player_health <= 0)
                 {
@@ -57,7 +56,7 @@ int main(int argc, char const *argv[])
                 }
             }
         }
-    }
+    // }
 
     return 0;
 }
