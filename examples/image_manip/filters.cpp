@@ -1,10 +1,10 @@
-#include "animations.hpp"
+#include "filters.hpp"
 
-grey_scale::grey_scale(std::span<data::colour_data::pixel_colour_t> image) : image_{image}
+filters::grey_scale::grey_scale(std::span<data::colour_data::pixel_colour_t> image) : image_{image}
 {
 }
 
-void grey_scale::apply()
+void filters::grey_scale::apply()
 {
     for (auto &pixel_colour : image_)
     {
@@ -20,11 +20,11 @@ void grey_scale::apply()
     }
 }
 
-sepia::sepia(std::span<data::colour_data::pixel_colour_t> image) : image_{image}
+filters::sepia::sepia(std::span<data::colour_data::pixel_colour_t> image) : image_{image}
 {
 }
 
-void sepia::apply()
+void filters::sepia::apply()
 {
     for (auto &pixel_colour : image_)
     {
@@ -40,15 +40,15 @@ void sepia::apply()
     }
 }
 
-channel_adjustment::channel_adjustment(int intensity[3],
-                                       std::span<data::colour_data::pixel_colour_t> image) : image_{image},
-                                                                                            intensity_{intensity[0],
-                                                                                                       intensity[1],
-                                                                                                       intensity[2]}
+filters::channel_adjustment::channel_adjustment(int intensity[3],
+                                                std::span<data::colour_data::pixel_colour_t> image) : image_{image},
+                                                                                                      intensity_{intensity[0],
+                                                                                                                 intensity[1],
+                                                                                                                 intensity[2]}
 {
 }
 
-void channel_adjustment::apply()
+void filters::channel_adjustment::apply()
 {
     const unsigned int Brightest = 255U;
     const unsigned int Darkest = 0U;
@@ -64,11 +64,11 @@ void channel_adjustment::apply()
     }
 }
 
-negative::negative(std::span<data::colour_data::pixel_colour_t> image) : image_{image}
+filters::negative::negative(std::span<data::colour_data::pixel_colour_t> image) : image_{image}
 {
 }
 
-void negative::apply()
+void filters::negative::apply()
 {
     const unsigned int Brightest = 255U;
     const unsigned int Darkest = 0U;
@@ -99,21 +99,21 @@ void negative::apply()
     }
 }
 
-contrast::contrast(std::span<data::colour_data::pixel_colour_t> image, int value) : image_{image},
-                                                                                   f_value_{
-                                                                                       static_cast<double>(
-                                                                                           (259 * (value + 255)) / (255 * (259 - value)))},
-                                                                                   contrast_effect_matrix_{
-                                                                                       {f_value_, 0, 0, 128},
-                                                                                       {0, f_value_, 0, 128},
-                                                                                       {0, 0, f_value_, 128},
-                                                                                       {0, 0, 0, 1}}
+filters::contrast::contrast(std::span<data::colour_data::pixel_colour_t> image, int value) : image_{image},
+                                                                                             f_value_{
+                                                                                                 static_cast<double>(
+                                                                                                     (259 * (value + 255)) / (255 * (259 - value)))},
+                                                                                             contrast_effect_matrix_{
+                                                                                                 {f_value_, 0, 0, 128},
+                                                                                                 {0, f_value_, 0, 128},
+                                                                                                 {0, 0, f_value_, 128},
+                                                                                                 {0, 0, 0, 1}}
 
 {
     assert((value >= -100 && value <= 100));
 }
 
-void contrast::apply()
+void filters::contrast::apply()
 {
     const unsigned int Brightest = 255U;
     const unsigned int Darkest = 0U;
@@ -147,14 +147,14 @@ void contrast::apply()
     }
 }
 
-gamma_correction::gamma_correction(std::span<data::colour_data::pixel_colour_t> image,
-                                   int value) : image_{image},
-                                                f_value_{value != 0 ? static_cast<double>(1 / value) : 0}
+filters::gamma_correction::gamma_correction(std::span<data::colour_data::pixel_colour_t> image,
+                                            int value) : image_{image},
+                                                         f_value_{value != 0 ? static_cast<double>(1 / value) : 0}
 {
     assert((value > 0 && value <= 10));
 }
 
-void gamma_correction::apply()
+void filters::gamma_correction::apply()
 {
     const unsigned int Brightest = 255U;
     const unsigned int Darkest = 0U;
