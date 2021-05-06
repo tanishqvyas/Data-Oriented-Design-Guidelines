@@ -15,7 +15,7 @@ namespace data
 
     struct position_data {
         using position = unsigned int;
-
-        std::vector<std::pair<position, position>> data;
+        using pixel_position = std::pair<position, position>;
+        std::vector<pixel_position> data;
     };
 } // namespace data
