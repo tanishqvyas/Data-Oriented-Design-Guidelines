@@ -15,14 +15,25 @@ namespace data
         using pixel_colour_t = std::tuple<colour_intensity_t,
                                           colour_intensity_t,
                                           colour_intensity_t>;
-        colour_data(std::size_t size) : data_{std::make_unique<pixel_colour_t[]>(size)},
-                                        free_pixel_index{}
+        colour_data() : data_{nullptr}, free_pixel_index{}
         {
         }
+
+        void set_size(std::size_t size)
+        {
+            data_ = std::make_unique<pixel_colour_t[]>(size);
+            free_pixel_index = 0;
+        }
+
         void insert(colour_intensity_t &r, colour_intensity_t &g, colour_intensity_t &b)
         {
             data_[free_pixel_index] = pixel_colour_t{r, g, b};
             ++free_pixel_index;
+        }
+
+        pixel_colour_t* get_nown_ptr()
+        {
+            return data_.get();
         }
 
     private:
