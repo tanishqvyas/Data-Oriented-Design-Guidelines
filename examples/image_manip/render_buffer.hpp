@@ -13,6 +13,6 @@ public:
     void render();
 
 private:
-    data::colour_data colour_buffer;
-    std::vector<filters::filter_types> filter_buffer;
+    data::colour_data colour_buffer_;
+    std::vector<filters::filter_types> filter_buffer_;
 };
