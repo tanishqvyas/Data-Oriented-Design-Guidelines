@@ -75,10 +75,11 @@ data::colour_data::pixel_colour_t *image::write_colours_to_buffer(
             green_value = (ui_pixel_value % 65536) / 256;
             blue_value = ui_pixel_value % 256;
 
-            // std::cout << red_value << ",";
-            // std::cout << green_value << ",";
-            // std::cout << blue_value << ",";
-
+#if DEBUG
+            std::cout << red_value << ",";
+            std::cout << green_value << ",";
+            std::cout << blue_value << ",";
+#endif
             std::get<0>(*pixel) = red_value;
             std::get<1>(*pixel) = green_value;
             std::get<2>(*pixel) = blue_value;
@@ -86,14 +87,16 @@ data::colour_data::pixel_colour_t *image::write_colours_to_buffer(
         }
     }
 
+#if DEBUG
     std::cout << std::endl;
-    // for (auto &e : image_span_)
-    // {
-    //     std::cout << std::get<0>(e) << ",";
-    //     std::cout << std::get<1>(e) << ",";
-    //     std::cout << std::get<2>(e) << ",";
-    // }
+    for (auto &e : image_span_)
+    {
+        std::cout << std::get<0>(e) << ",";
+        std::cout << std::get<1>(e) << ",";
+        std::cout << std::get<2>(e) << ",";
+    }
     std::cout << std::endl;
+#endif
     return nown_ptr + height_ * width_; // pass back the pointer to the next location
 }
 
