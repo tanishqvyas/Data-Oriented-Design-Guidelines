@@ -1,13 +1,24 @@
 #include "filters.hpp"
+#include <iostream>
 
-filters::grey_scale::grey_scale(std::span<data::colour_data::pixel_colour_t> image) : image_{image}
+filters::grey_scale::grey_scale() : image_{}
 {
+}
+
+void filters::grey_scale::set_span(std::span<data::colour_data::pixel_colour_t> image)
+{
+    image_ = image;
 }
 
 void filters::grey_scale::apply()
 {
     for (auto &pixel_colour : image_)
     {
+        // std::cout << std::get<0>(pixel_colour) * 0.5 << std::endl;
+        // std::cout << std::get<0>(pixel_colour) * grey_scale_matrix[0][0] +
+        //                  std::get<1>(pixel_colour) * grey_scale_matrix[0][1] +
+        //                  std::get<2>(pixel_colour) * grey_scale_matrix[0][2]
+        //           << std::endl;
         std::get<0>(pixel_colour) = static_cast<unsigned int>(std::get<0>(pixel_colour) * grey_scale_matrix[0][0] +
                                                               std::get<1>(pixel_colour) * grey_scale_matrix[0][1] +
                                                               std::get<2>(pixel_colour) * grey_scale_matrix[0][2]);
@@ -20,8 +31,13 @@ void filters::grey_scale::apply()
     }
 }
 
-filters::sepia::sepia(std::span<data::colour_data::pixel_colour_t> image) : image_{image}
+filters::sepia::sepia() : image_{}
 {
+}
+
+void filters::sepia::set_span(std::span<data::colour_data::pixel_colour_t> image)
+{
+    image_ = image;
 }
 
 void filters::sepia::apply()
@@ -40,12 +56,19 @@ void filters::sepia::apply()
     }
 }
 
-filters::channel_adjustment::channel_adjustment(int intensity[3],
-                                                std::span<data::colour_data::pixel_colour_t> image) : image_{image},
-                                                                                                      intensity_{intensity[0],
-                                                                                                                 intensity[1],
-                                                                                                                 intensity[2]}
+filters::channel_adjustment::channel_adjustment(int intensity[3]) : image_{},
+                                                                    intensity_{intensity[0],
+                                                                               intensity[1],
+                                                                               intensity[2]}
 {
+    assert((intensity[0] >= -150 && intensity[0] <= 150));
+    assert((intensity[1] >= -150 && intensity[1] <= 150));
+    assert((intensity[2] >= -150 && intensity[2] <= 150));
+}
+
+void filters::channel_adjustment::set_span(std::span<data::colour_data::pixel_colour_t> image)
+{
+    image_ = image;
 }
 
 void filters::channel_adjustment::apply()
@@ -64,8 +87,13 @@ void filters::channel_adjustment::apply()
     }
 }
 
-filters::negative::negative(std::span<data::colour_data::pixel_colour_t> image) : image_{image}
+filters::negative::negative() : image_{}
 {
+}
+
+void filters::negative::set_span(std::span<data::colour_data::pixel_colour_t> image)
+{
+    image_ = image;
 }
 
 void filters::negative::apply()
@@ -99,18 +127,23 @@ void filters::negative::apply()
     }
 }
 
-filters::contrast::contrast(std::span<data::colour_data::pixel_colour_t> image, int value) : image_{image},
-                                                                                             f_value_{
-                                                                                                 static_cast<double>(
-                                                                                                     (259 * (value + 255)) / (255 * (259 - value)))},
-                                                                                             contrast_effect_matrix_{
-                                                                                                 {f_value_, 0, 0, 128},
-                                                                                                 {0, f_value_, 0, 128},
-                                                                                                 {0, 0, f_value_, 128},
-                                                                                                 {0, 0, 0, 1}}
+filters::contrast::contrast(int value) : image_{},
+                                         f_value_{
+                                             static_cast<double>(
+                                                 (259 * (value + 255)) / (255 * (259 - value)))},
+                                         contrast_effect_matrix_{
+                                             {f_value_, 0, 0, 128},
+                                             {0, f_value_, 0, 128},
+                                             {0, 0, f_value_, 128},
+                                             {0, 0, 0, 1}}
 
 {
     assert((value >= -100 && value <= 100));
+}
+
+void filters::contrast::set_span(std::span<data::colour_data::pixel_colour_t> image)
+{
+    image_ = image;
 }
 
 void filters::contrast::apply()
@@ -147,11 +180,15 @@ void filters::contrast::apply()
     }
 }
 
-filters::gamma_correction::gamma_correction(std::span<data::colour_data::pixel_colour_t> image,
-                                            int value) : image_{image},
+filters::gamma_correction::gamma_correction(int value) : image_{},
                                                          f_value_{value != 0 ? static_cast<double>(1 / value) : 0}
 {
     assert((value > 0 && value <= 10));
+}
+
+void filters::gamma_correction::set_span(std::span<data::colour_data::pixel_colour_t> image)
+{
+    image_ = image;
 }
 
 void filters::gamma_correction::apply()
