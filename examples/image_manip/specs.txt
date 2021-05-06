@@ -1,0 +1,11 @@
+take image
+make 64x64
+save the individual pixel data in a .csv file
+- Each line is one row of the image
+- Each cell is the combined value or r,g,b using the formula: v = f(r, g, b) = r*65536 + g*256 + b
+
+Eg: 4x4 image
+5,6,7,8
+12,3,4,5
+6,7,8,9
+23,4,32,1
