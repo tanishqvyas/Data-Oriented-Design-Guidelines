@@ -1,8 +1,7 @@
 import os
-import cv2 
-import numpy as np  
+import cv2
+import numpy as np
 import csv
-
 
 
 IMAGE_PATH = os.path.join("base_image.png")
@@ -19,21 +18,21 @@ IMAGE_PATH = os.path.join("base_image.png")
 
 img = cv2.imread(IMAGE_PATH)
 
-#images are converted to 1:1 dimensions
-img = cv2.resize(img,(64,64)).tolist()
+# images are converted to 1:1 dimensions
+img = cv2.resize(img, (64, 64)).tolist()
 
 rgb_csv = open("rgb_csv.csv", "w");
 csv_writer = csv.writer(rgb_csv)
-
+csv_writer.writerow([64, 64])
 
 for x in range(64):
 	row = []
 	for y in range(64):
-		
+
 		# Inserted Rishit's Formula here
-		rgb_combined = img[y][x][1]
-		rgb_combined = (rgb_combined << 8) + img[y][x][2]
-		rgb_combined = (rgb_combined << 8) + img[y][x][0]
+		rgb_combined = img[y][x][2]  # r
+		rgb_combined = (rgb_combined << 8) + img[y][x][1]  # g
+		rgb_combined = (rgb_combined << 8) + img[y][x][0]  # b
 
 		'''
 		# Reversal
