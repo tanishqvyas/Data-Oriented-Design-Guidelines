@@ -8,7 +8,7 @@ RESIZED_HEIGHT = 64
 RESIZED_WIDTH = 64
 
 # IMAGE_PATH = os.path.join("base_image.png")
-IMAGE_PATH = os.path.join("base_image.jpeg")
+IMAGE_PATH = os.path.join("base_image1.jpeg")
 
 # Reading in the BASE IMAGE
 img = cv2.imread(IMAGE_PATH)
