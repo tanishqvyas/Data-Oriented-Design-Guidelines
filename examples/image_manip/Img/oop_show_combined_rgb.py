@@ -4,8 +4,8 @@ import numpy as np
 import csv
 from PIL import Image
 
-IMAGE_PATH = os.path.join("..", "DoD", "modified_images")
-DES_IMG_PATH = os.path.join(".", "final_img")
+IMAGE_PATH = os.path.join("..", "OOP", "modified_images")
+DES_IMG_PATH = os.path.join(".", "final_img_oop")
 TOTAL_NUMBER_OF_IMGS = 10
 
 # os.path.join(IMAGE_PATH, "img_" + str(i) + ".csv")
