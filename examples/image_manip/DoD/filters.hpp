@@ -96,8 +96,7 @@ namespace filters
         double f_value_;
     };
 
-    using filter_types = std::variant<std::monostate,
-                                      grey_scale,
+    using filter_types = std::variant<grey_scale,
                                       sepia,
                                       channel_adjustment,
                                       negative,

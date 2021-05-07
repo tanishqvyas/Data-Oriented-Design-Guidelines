@@ -55,9 +55,9 @@ data::colour_data::pixel_colour_t *image::write_colours_to_buffer(
     for (auto &filter : filter_vec_)
     {
         std::visit([this](auto &f) {
-            using T = std::decay_t<decltype(f)>;
-            if constexpr (!std::is_same_v<T, std::monostate>)
-                f.set_span(image_span_);
+            // using T = std::decay_t<decltype(f)>;
+            // if constexpr (!std::is_same_v<T, std::monostate>)
+            f.set_span(image_span_);
         },
                    filter);
     }

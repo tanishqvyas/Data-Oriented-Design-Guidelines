@@ -24,9 +24,9 @@ void render_buffer::render()
     {
         std::visit(
             [](auto &f) {
-                using T = std::decay_t<decltype(f)>;
-                if constexpr (!std::is_same_v<T, std::monostate>)
-                    f.apply();
+                // using T = std::decay_t<decltype(f)>;
+                // if constexpr (!std::is_same_v<T, std::monostate>)
+                f.apply();
             },
             filter);
     }
