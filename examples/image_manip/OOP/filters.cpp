@@ -13,7 +13,16 @@ filters::grey_scale::grey_scale()
 {
 }
 
-void filters::grey_scale::apply(std::span<pixel_colour_t> image_)
+filters::grey_scale::grey_scale(const grey_scale &obj)
+{
+}
+
+filters::grey_scale &filters::grey_scale::operator=(const grey_scale &obj)
+{
+    return *this;
+}
+
+void filters::grey_scale::apply(std::vector<pixel_colour_t> &image_)
 {
     // std::cout << "4" << std::endl;
     for (auto &pixel_colour : image_)
@@ -39,7 +48,16 @@ filters::sepia::sepia()
 {
 }
 
-void filters::sepia::apply(std::span<pixel_colour_t> image_)
+filters::sepia::sepia(const filters::sepia &obj)
+{
+}
+
+filters::sepia &filters::sepia::operator=(const filters::sepia &obj)
+{
+    return *this;
+}
+
+void filters::sepia::apply(std::vector<pixel_colour_t> &image_)
 {
     for (auto &pixel_colour : image_)
     {
@@ -64,7 +82,21 @@ filters::channel_adjustment::channel_adjustment(int intensity[3]) : intensity_{i
     assert((intensity[2] >= -150 && intensity[2] <= 150));
 }
 
-void filters::channel_adjustment::apply(std::span<pixel_colour_t> image_)
+filters::channel_adjustment::channel_adjustment(const channel_adjustment &obj) : intensity_{obj.intensity_[0],
+                                                                                            obj.intensity_[1],
+                                                                                            obj.intensity_[2]}
+{
+}
+
+filters::channel_adjustment &filters::channel_adjustment::operator=(const channel_adjustment &obj)
+{
+    intensity_[0] = obj.intensity_[0];
+    intensity_[1] = obj.intensity_[1];
+    intensity_[2] = obj.intensity_[2];
+    return *this;
+}
+
+void filters::channel_adjustment::apply(std::vector<pixel_colour_t> &image_)
 {
     const int Brightest = 255;
     const int Darkest = 0;
@@ -84,7 +116,16 @@ filters::negative::negative()
 {
 }
 
-void filters::negative::apply(std::span<pixel_colour_t> image_)
+filters::negative::negative(const filters::negative &obj)
+{
+}
+
+filters::negative &filters::negative::operator=(const filters::negative &obj)
+{
+    return *this;
+}
+
+void filters::negative::apply(std::vector<pixel_colour_t> &image_)
 {
     const unsigned int Brightest = 255U;
     const unsigned int Darkest = 0U;
@@ -124,7 +165,26 @@ filters::contrast::contrast(int value) : f_value_{
     assert((value >= -100 && value <= 100));
 }
 
-void filters::contrast::apply(std::span<pixel_colour_t> image_)
+filters::contrast::contrast(const filters::contrast &obj) : f_value_{obj.f_value_},
+                                                            contrast_effect_matrix_{
+                                                                {f_value_, 0, 0, 128.0},
+                                                                {0, f_value_, 0, 128.0},
+                                                                {0, 0, f_value_, 128.0},
+                                                                {0, 0, 0, 1.0}}
+{
+}
+filters::contrast &filters::contrast::operator=(const filters::contrast &obj)
+{
+    f_value_ = obj.f_value_;
+
+    for (int i = 0; i < 4; ++i)
+        for (int j = 0; j < 4; ++j)
+            contrast_effect_matrix_[i][j] = obj.contrast_effect_matrix_[i][j];
+
+    return *this;
+}
+
+void filters::contrast::apply(std::vector<pixel_colour_t> &image_)
 {
     const unsigned int Brightest = 255U;
     const unsigned int Darkest = 0U;
@@ -164,7 +224,16 @@ filters::gamma_correction::gamma_correction(double value) : f_value_{value != 0.
     assert((f_value_ != 0.0));
 }
 
-void filters::gamma_correction::apply(std::span<pixel_colour_t> image_)
+filters::gamma_correction::gamma_correction(const gamma_correction &obj) : f_value_{obj.f_value_}
+{
+}
+filters::gamma_correction &filters::gamma_correction::operator=(const filters::gamma_correction &obj)
+{
+    f_value_ = obj.f_value_;
+    return *this;
+}
+
+void filters::gamma_correction::apply(std::vector<pixel_colour_t> &image_)
 {
     const unsigned int Brightest = 255U;
     const unsigned int Darkest = 0U;
