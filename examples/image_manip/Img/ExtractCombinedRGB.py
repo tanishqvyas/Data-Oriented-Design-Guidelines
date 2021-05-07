@@ -1,6 +1,7 @@
 import os
 import cv2 
 import numpy as np  
+import csv
 
 
 
@@ -21,21 +22,28 @@ img = cv2.imread(IMAGE_PATH)
 #images are converted to 1:1 dimensions
 img = cv2.resize(img,(64,64)).tolist()
 
-for x in range(64):
-    for y in range(64):
-        
-        # Inserted Rishit's Formula here
-        rgb_combined = img[y][x][1]
-        rgb_combined = (rgb_combined << 8) + img[y][x][2]
-        rgb_combined = (rgb_combined << 8) + img[y][x][0]
+rgb_csv = open("rgb_csv.csv", "w");
+csv_writer = csv.writer(rgb_csv)
 
-        '''
-        # Reversal
-        red = (rgb_combined >> 16) & 0xFF;
-        green = (rgb_combined >> 8) & 0xFF;
-        blue = rgb_combined & 0xFF;
-        '''
-        print(rgb_combined, end=", ")
-    
-    print()
-        
+
+for x in range(64):
+	row = []
+	for y in range(64):
+		
+		# Inserted Rishit's Formula here
+		rgb_combined = img[y][x][1]
+		rgb_combined = (rgb_combined << 8) + img[y][x][2]
+		rgb_combined = (rgb_combined << 8) + img[y][x][0]
+
+		'''
+		# Reversal
+		red = (rgb_combined >> 16) & 0xFF;
+		green = (rgb_combined >> 8) & 0xFF;
+		blue = rgb_combined & 0xFF;
+		'''
+		# print(rgb_combined, end=", ")
+		row.append(rgb_combined)
+	csv_writer.writerow(row)
+	
+	# print()
+		
