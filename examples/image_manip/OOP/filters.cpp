@@ -9,11 +9,11 @@ filters::filter::~filter()
 {
 }
 
-filters::grey_scale::grey_scale()
+filters::grey_scale::grey_scale() : filter()
 {
 }
 
-filters::grey_scale::grey_scale(const grey_scale &obj)
+filters::grey_scale::grey_scale(const grey_scale &obj) : filter()
 {
 }
 
@@ -44,11 +44,11 @@ void filters::grey_scale::apply(std::vector<pixel_colour_t> &image_)
     }
 }
 
-filters::sepia::sepia()
+filters::sepia::sepia() : filter()
 {
 }
 
-filters::sepia::sepia(const filters::sepia &obj)
+filters::sepia::sepia(const filters::sepia &obj) : filter()
 {
 }
 
@@ -73,18 +73,18 @@ void filters::sepia::apply(std::vector<pixel_colour_t> &image_)
     }
 }
 
-filters::channel_adjustment::channel_adjustment(int intensity[3]) : intensity_{intensity[0],
-                                                                               intensity[1],
-                                                                               intensity[2]}
+filters::channel_adjustment::channel_adjustment(int intensity[3]) : filter(), intensity_{intensity[0],
+                                                                                         intensity[1],
+                                                                                         intensity[2]}
 {
     assert((intensity[0] >= -150 && intensity[0] <= 150));
     assert((intensity[1] >= -150 && intensity[1] <= 150));
     assert((intensity[2] >= -150 && intensity[2] <= 150));
 }
 
-filters::channel_adjustment::channel_adjustment(const channel_adjustment &obj) : intensity_{obj.intensity_[0],
-                                                                                            obj.intensity_[1],
-                                                                                            obj.intensity_[2]}
+filters::channel_adjustment::channel_adjustment(const channel_adjustment &obj) : filter(), intensity_{obj.intensity_[0],
+                                                                                                      obj.intensity_[1],
+                                                                                                      obj.intensity_[2]}
 {
 }
 
@@ -112,11 +112,11 @@ void filters::channel_adjustment::apply(std::vector<pixel_colour_t> &image_)
     }
 }
 
-filters::negative::negative()
+filters::negative::negative() : filter()
 {
 }
 
-filters::negative::negative(const filters::negative &obj)
+filters::negative::negative(const filters::negative &obj) : filter()
 {
 }
 
@@ -156,16 +156,16 @@ void filters::negative::apply(std::vector<pixel_colour_t> &image_)
     }
 }
 
-filters::contrast::contrast(int value) : f_value_{
-                                             static_cast<double>(
-                                                 (259.0 * (value + 255.0)) / (255.0 * (259.0 - value)))},
+filters::contrast::contrast(int value) : filter(), f_value_{
+                                                       static_cast<double>(
+                                                           (259.0 * (value + 255.0)) / (255.0 * (259.0 - value)))},
                                          contrast_effect_matrix_{{f_value_, 0, 0, 128.0}, {0, f_value_, 0, 128.0}, {0, 0, f_value_, 128.0}, {0, 0, 0, 1.0}}
 
 {
     assert((value >= -100 && value <= 100));
 }
 
-filters::contrast::contrast(const filters::contrast &obj) : f_value_{obj.f_value_},
+filters::contrast::contrast(const filters::contrast &obj) : filter(), f_value_{obj.f_value_},
                                                             contrast_effect_matrix_{
                                                                 {f_value_, 0, 0, 128.0},
                                                                 {0, f_value_, 0, 128.0},
@@ -218,13 +218,13 @@ void filters::contrast::apply(std::vector<pixel_colour_t> &image_)
     }
 }
 
-filters::gamma_correction::gamma_correction(double value) : f_value_{value != 0.0 ? static_cast<double>(1.0 / value) : 0.0}
+filters::gamma_correction::gamma_correction(double value) : filter(), f_value_{value != 0.0 ? static_cast<double>(1.0 / value) : 0.0}
 {
     assert((value > 0.0 && value <= 10.0));
     assert((f_value_ != 0.0));
 }
 
-filters::gamma_correction::gamma_correction(const gamma_correction &obj) : f_value_{obj.f_value_}
+filters::gamma_correction::gamma_correction(const gamma_correction &obj) : filter(), f_value_{obj.f_value_}
 {
 }
 filters::gamma_correction &filters::gamma_correction::operator=(const filters::gamma_correction &obj)
