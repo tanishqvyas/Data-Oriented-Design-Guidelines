@@ -140,6 +140,7 @@ filters::negative::negative(const filters::negative &obj) : image_{obj.image_}
 }
 filters::negative &filters::negative::operator=(const filters::negative &obj)
 {
+    image_ = obj.image_;
     return *this;
 }
 
