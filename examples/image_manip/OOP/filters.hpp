@@ -16,20 +16,15 @@ namespace filters
     {
     public:
         filter();
-        virtual void set_span(std::span<pixel_colour_t>) = 0;
-        virtual void apply() = 0;
+        virtual void apply(std::span<pixel_colour_t>) = 0;
         virtual ~filter();
-
-    protected:
-        std::span<pixel_colour_t> image_;
     };
 
     class grey_scale : public filter
     {
     public:
         grey_scale();
-        virtual void set_span(std::span<pixel_colour_t>) override;
-        virtual void apply() override;
+        virtual void apply(std::span<pixel_colour_t>) override;
 
     private:
         const double val_ = 1.0 / 3.0;
@@ -42,8 +37,7 @@ namespace filters
     {
     public:
         sepia();
-        virtual void set_span(std::span<pixel_colour_t>) override;
-        virtual void apply() override;
+        virtual void apply(std::span<pixel_colour_t>) override;
 
     private:
         const double sepia_effect_matrix[3][3] = {{0.393, 0.769, 0.189},
@@ -55,8 +49,7 @@ namespace filters
     {
     public:
         channel_adjustment(int[3]);
-        virtual void set_span(std::span<pixel_colour_t>) override;
-        virtual void apply() override;
+        virtual void apply(std::span<pixel_colour_t>) override;
 
     private:
         int intensity_[3];
@@ -66,8 +59,7 @@ namespace filters
     {
     public:
         negative();
-        virtual void set_span(std::span<pixel_colour_t>) override;
-        virtual void apply() override;
+        virtual void apply(std::span<pixel_colour_t>) override;
 
     private:
         const int negative_effect_matrix[4][4] = {{-1, 0, 0, 255},
@@ -80,8 +72,7 @@ namespace filters
     {
     public:
         contrast(int);
-        virtual void set_span(std::span<pixel_colour_t>) override;
-        virtual void apply() override;
+        virtual void apply(std::span<pixel_colour_t>) override;
 
     private:
         double f_value_;
@@ -93,8 +84,7 @@ namespace filters
     {
     public:
         gamma_correction(int);
-        virtual void set_span(std::span<pixel_colour_t>) override;
-        virtual void apply() override;
+        virtual void apply(std::span<pixel_colour_t>) override;
 
     private:
         double f_value_;

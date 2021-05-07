@@ -65,7 +65,6 @@ image::image(const image &obj) : image_file_{obj.image_file_},
 
 image &image::add_filter(filters::filter *filter)
 {
-    filter->set_span(image_vec_);
     filter_vec_.push_back(filter);
     assert((filter != nullptr));
     return *this;
@@ -77,7 +76,7 @@ void image::render()
     {
         // std::cout << "3" << std::endl;
         assert((*it != nullptr));
-        (*it)->apply();
+        (*it)->apply(image_vec_);
     }
 }
 

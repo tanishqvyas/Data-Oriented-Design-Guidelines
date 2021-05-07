@@ -1,7 +1,7 @@
 #include "filters.hpp"
 #include <iostream>
 
-filters::filter::filter() : image_{}
+filters::filter::filter()
 {
 }
 
@@ -13,12 +13,7 @@ filters::grey_scale::grey_scale()
 {
 }
 
-void filters::grey_scale::set_span(std::span<pixel_colour_t> image)
-{
-    image_ = image;
-}
-
-void filters::grey_scale::apply()
+void filters::grey_scale::apply(std::span<pixel_colour_t> image_)
 {
     // std::cout << "4" << std::endl;
     for (auto &pixel_colour : image_)
@@ -44,12 +39,7 @@ filters::sepia::sepia()
 {
 }
 
-void filters::sepia::set_span(std::span<pixel_colour_t> image)
-{
-    image_ = image;
-}
-
-void filters::sepia::apply()
+void filters::sepia::apply(std::span<pixel_colour_t> image_)
 {
     for (auto &pixel_colour : image_)
     {
@@ -74,12 +64,7 @@ filters::channel_adjustment::channel_adjustment(int intensity[3]) : intensity_{i
     assert((intensity[2] >= -150 && intensity[2] <= 150));
 }
 
-void filters::channel_adjustment::set_span(std::span<pixel_colour_t> image)
-{
-    image_ = image;
-}
-
-void filters::channel_adjustment::apply()
+void filters::channel_adjustment::apply(std::span<pixel_colour_t> image_)
 {
     const unsigned int Brightest = 255U;
     const unsigned int Darkest = 0U;
@@ -99,12 +84,7 @@ filters::negative::negative()
 {
 }
 
-void filters::negative::set_span(std::span<pixel_colour_t> image)
-{
-    image_ = image;
-}
-
-void filters::negative::apply()
+void filters::negative::apply(std::span<pixel_colour_t> image_)
 {
     const unsigned int Brightest = 255U;
     const unsigned int Darkest = 0U;
@@ -144,12 +124,7 @@ filters::contrast::contrast(int value) : f_value_{
     assert((value >= -100 && value <= 100));
 }
 
-void filters::contrast::set_span(std::span<pixel_colour_t> image)
-{
-    image_ = image;
-}
-
-void filters::contrast::apply()
+void filters::contrast::apply(std::span<pixel_colour_t> image_)
 {
     const unsigned int Brightest = 255U;
     const unsigned int Darkest = 0U;
@@ -189,12 +164,7 @@ filters::gamma_correction::gamma_correction(int value) : f_value_{value != 0 ? s
     assert((f_value_ != 0));
 }
 
-void filters::gamma_correction::set_span(std::span<pixel_colour_t> image)
-{
-    image_ = image;
-}
-
-void filters::gamma_correction::apply()
+void filters::gamma_correction::apply(std::span<pixel_colour_t> image_)
 {
     const unsigned int Brightest = 255U;
     const unsigned int Darkest = 0U;
