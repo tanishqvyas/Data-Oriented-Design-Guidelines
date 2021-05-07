@@ -29,9 +29,9 @@ int main()
     int brightness_enhance[] {15, 5, 10};
     int darken_enhance[] {-15, -5, -10};
 
-    image_vec[0].add_filter(filters::grey_scale())
-                .add_filter(filters::contrast(50))
-                .add_filter(filters::sepia());
+    image_vec[0].add_filter(filters::grey_scale());
+                // .add_filter(filters::contrast(50))
+                // .add_filter(filters::sepia());
 
     image_vec[1].add_filter(filters::sepia())
                 .add_filter(filters::gamma_correction(6));
