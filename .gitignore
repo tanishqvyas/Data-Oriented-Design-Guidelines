@@ -2,3 +2,4 @@
 **/cachegrind.*
 **/.vscode/*
 **/*.o
+**/*.gch
