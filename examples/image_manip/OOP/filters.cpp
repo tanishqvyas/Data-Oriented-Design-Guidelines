@@ -66,17 +66,17 @@ filters::channel_adjustment::channel_adjustment(int intensity[3]) : intensity_{i
 
 void filters::channel_adjustment::apply(std::span<pixel_colour_t> image_)
 {
-    const unsigned int Brightest = 255U;
-    const unsigned int Darkest = 0U;
+    const int Brightest = 255;
+    const int Darkest = 0;
 
     for (auto &pixel_colour : image_)
     {
-        const unsigned int r = std::get<0>(pixel_colour);
-        const unsigned int g = std::get<1>(pixel_colour);
-        const unsigned int b = std::get<2>(pixel_colour);
-        std::get<0>(pixel_colour) = std::clamp(r + intensity_[0], Darkest, Brightest);
-        std::get<1>(pixel_colour) = std::clamp(g + intensity_[1], Darkest, Brightest);
-        std::get<2>(pixel_colour) = std::clamp(b + intensity_[2], Darkest, Brightest);
+        const int r = std::get<0>(pixel_colour);
+        const int g = std::get<1>(pixel_colour);
+        const int b = std::get<2>(pixel_colour);
+        std::get<0>(pixel_colour) = static_cast<unsigned int>(std::clamp(r + intensity_[0], Darkest, Brightest));
+        std::get<1>(pixel_colour) = static_cast<unsigned int>(std::clamp(g + intensity_[1], Darkest, Brightest));
+        std::get<2>(pixel_colour) = static_cast<unsigned int>(std::clamp(b + intensity_[2], Darkest, Brightest));
     }
 }
 
@@ -158,10 +158,10 @@ void filters::contrast::apply(std::span<pixel_colour_t> image_)
     }
 }
 
-filters::gamma_correction::gamma_correction(int value) : f_value_{value != 0 ? static_cast<double>(1.0 / value) : 0}
+filters::gamma_correction::gamma_correction(double value) : f_value_{value != 0.0 ? static_cast<double>(1.0 / value) : 0.0}
 {
-    assert((value > 0 && value <= 10));
-    assert((f_value_ != 0));
+    assert((value > 0.0 && value <= 10.0));
+    assert((f_value_ != 0.0));
 }
 
 void filters::gamma_correction::apply(std::span<pixel_colour_t> image_)

@@ -83,7 +83,7 @@ namespace filters
     class gamma_correction : public filter
     {
     public:
-        gamma_correction(int);
+        gamma_correction(double);
         virtual void apply(std::span<pixel_colour_t>) override;
 
     private:
