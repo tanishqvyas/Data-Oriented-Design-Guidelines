@@ -46,6 +46,7 @@ int main()
                 .add_filter(filters::channel_adjustment(blue_channel_enhance));
 
     image_vec[4].add_filter(filters::grey_scale())
+                .add_filter(filters::sepia())
                 .add_filter(filters::contrast(50));
 
     image_vec[5].add_filter(filters::sepia())
@@ -58,6 +59,7 @@ int main()
 
     image_vec[7].add_filter(filters::sepia())
                 .add_filter(filters::gamma_correction(3))
+                .add_filter(filters::contrast(50))
                 .add_filter(filters::negative());
 
     image_vec[8].add_filter(filters::channel_adjustment(green_channel_enhance))
@@ -70,7 +72,8 @@ int main()
     render_buffer buf(image_vec);
     
     auto start = std::chrono::high_resolution_clock::now();
-    buf.render();
+    for(int i = 0; i < 100; ++i)
+        buf.render();
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = finish - start;
     std::cout << "Elapsed time for Data Oriented Design Technique: " << elapsed.count() << " s\n";
