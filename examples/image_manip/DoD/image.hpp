@@ -25,6 +25,7 @@ private:
     unsigned int width_;
     std::vector<filters::filter_types> filter_vec_;
     std::span<data::colour_data::pixel_colour_t> image_span_;
+    char load[1000]{};
 
     friend render_buffer;
     data::colour_data::pixel_colour_t *write_colours_to_buffer(data::colour_data::pixel_colour_t *);
