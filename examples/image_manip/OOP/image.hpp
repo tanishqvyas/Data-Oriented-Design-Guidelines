@@ -27,5 +27,5 @@ private:
     unsigned int width_;
     std::vector<filters::filter *> filter_vec_;
     std::vector<pixel_colour_t> image_vec_;
-    char load[1000]{};
+    char load[1024]{};
 };
