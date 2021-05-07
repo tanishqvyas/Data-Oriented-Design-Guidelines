@@ -180,11 +180,11 @@ void filters::contrast::apply()
     }
 }
 
-filters::gamma_correction::gamma_correction(int value) : image_{},
-                                                         f_value_{value != 0 ? static_cast<double>(1.0 / value) : 0}
+filters::gamma_correction::gamma_correction(double value) : image_{},
+                                                            f_value_{value != 0.0 ? static_cast<double>(1.0 / value) : 0.0}
 {
-    assert((value > 0 && value <= 10));
-    assert((f_value_ != 0));
+    assert((value > 0.0 && value <= 10.0));
+    assert((f_value_ != 0.0));
 }
 
 void filters::gamma_correction::set_span(std::span<data::colour_data::pixel_colour_t> image)

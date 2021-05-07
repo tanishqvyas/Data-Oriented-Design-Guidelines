@@ -87,7 +87,7 @@ namespace filters
     class gamma_correction
     {
     public:
-        gamma_correction(int);
+        gamma_correction(double);
         void set_span(std::span<data::colour_data::pixel_colour_t>);
         void apply();
 
