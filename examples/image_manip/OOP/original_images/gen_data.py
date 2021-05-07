@@ -10,15 +10,15 @@ def pixel_value():
 
 img = "img_"
 
-height_ = 4
-width_ = 4
+height_ = 64
+width_ = 64
 
 for i in range(10):
     file_name_ = img + str(i) + ".csv"
     with open(file_name_, "w") as fhandle:
         fhandle.write(str(height_) + "," + str(width_) + "\n")
         ele = [[pixel_value() for _ in range(width_)] for _ in range(height_)]
-        for i in range(4):
+        for i in range(height_):
             line = ",".join(ele[i])
             line += "\n"
             fhandle.write(line)
