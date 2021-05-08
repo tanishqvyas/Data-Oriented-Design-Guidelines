@@ -28,7 +28,7 @@ for x in range(RESIZED_HEIGHT):
     row = []
     for y in range(RESIZED_WIDTH):
 
-        # Combin9ng the RGB values
+        # Combining the RGB values
         rgb_combined = img[x][y][2] * 65536 + img[x][y][1] * 256 + img[x][y][0]
         row.append(rgb_combined)
 
