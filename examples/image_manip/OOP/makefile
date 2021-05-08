@@ -1,6 +1,6 @@
 CC = g++
 DEBUG_VAL=0
-CPPFLAGS = -DDEBUG=${DEBUG_VAL} -Wall -Werror -std=c++2a -pedantic -Weffc++ -g
+CPPFLAGS = -DDEBUG=${DEBUG_VAL} -Wall -Werror -std=c++2a -pedantic -Weffc++ -g -fstack-protector-all -fstack-clash-protection
 
 all: main.out
 

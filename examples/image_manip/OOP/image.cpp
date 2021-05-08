@@ -49,7 +49,7 @@ image::image(const std::string &file_name) : image_file_{new std::fstream()},
             std::cout << green_value << ",";
             std::cout << blue_value << ",";
 #endif
-            image_vec_.push_back({red_value, green_value, blue_value});
+            image_vec_.emplace_back(red_value, green_value, blue_value);
         }
     }
     // std::cout << "1" << std::endl;
@@ -82,7 +82,7 @@ void image::render()
 
 void image::write_back(const std::string &path_to_dest)
 {
-    // std::cout << path_to_dest << std::endl;
+    std::cout << path_to_dest << std::endl;
     unsigned int line_width_tracker = 0;
     std::fstream destination_file;
     destination_file.open(path_to_dest, std::fstream::out);

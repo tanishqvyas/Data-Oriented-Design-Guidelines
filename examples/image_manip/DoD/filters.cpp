@@ -5,7 +5,17 @@ filters::grey_scale::grey_scale() : image_{}
 {
 }
 
-void filters::grey_scale::set_span(std::span<data::colour_data::pixel_colour_t> image)
+filters::grey_scale::grey_scale(const grey_scale &obj) : image_{obj.image_}
+{
+}
+
+filters::grey_scale &filters::grey_scale::operator=(const grey_scale &obj)
+{
+    image_ = obj.image_;
+    return *this;
+}
+
+void filters::grey_scale::set_span(std::span<data::pixel_colour_t> image)
 {
     image_ = image;
 }
@@ -35,7 +45,17 @@ filters::sepia::sepia() : image_{}
 {
 }
 
-void filters::sepia::set_span(std::span<data::colour_data::pixel_colour_t> image)
+filters::sepia::sepia(const filters::sepia &obj) : image_{obj.image_}
+{
+}
+
+filters::sepia &filters::sepia::operator=(const filters::sepia &obj)
+{
+    image_ = obj.image_;
+    return *this;
+}
+
+void filters::sepia::set_span(std::span<data::pixel_colour_t> image)
 {
     image_ = image;
 }
@@ -56,6 +76,13 @@ void filters::sepia::apply()
     }
 }
 
+filters::channel_adjustment::channel_adjustment() : image_{},
+                                                    intensity_{0,
+                                                               0,
+                                                               0}
+{
+}
+
 filters::channel_adjustment::channel_adjustment(int intensity[3]) : image_{},
                                                                     intensity_{intensity[0],
                                                                                intensity[1],
@@ -66,24 +93,41 @@ filters::channel_adjustment::channel_adjustment(int intensity[3]) : image_{},
     assert((intensity[2] >= -150 && intensity[2] <= 150));
 }
 
-void filters::channel_adjustment::set_span(std::span<data::colour_data::pixel_colour_t> image)
+filters::channel_adjustment::channel_adjustment(const channel_adjustment &obj) : image_{obj.image_},
+                                                                                 intensity_{obj.intensity_[0],
+                                                                                            obj.intensity_[1],
+                                                                                            obj.intensity_[2]}
+{
+}
+
+filters::channel_adjustment &filters::channel_adjustment::operator=(const channel_adjustment &obj)
+{
+    image_ = obj.image_;
+    intensity_[0] = obj.intensity_[0];
+    intensity_[1] = obj.intensity_[1];
+    intensity_[2] = obj.intensity_[2];
+    return *this;
+}
+
+void filters::channel_adjustment::set_span(std::span<data::pixel_colour_t> image)
 {
     image_ = image;
 }
 
 void filters::channel_adjustment::apply()
 {
-    const unsigned int Brightest = 255U;
-    const unsigned int Darkest = 0U;
+    const int Brightest = 255;
+    const int Darkest = 0;
 
     for (auto &pixel_colour : image_)
     {
-        const unsigned int r = std::get<0>(pixel_colour);
-        const unsigned int g = std::get<1>(pixel_colour);
-        const unsigned int b = std::get<2>(pixel_colour);
-        std::get<0>(pixel_colour) = std::clamp(r + intensity_[0], Darkest, Brightest);
-        std::get<1>(pixel_colour) = std::clamp(g + intensity_[1], Darkest, Brightest);
-        std::get<2>(pixel_colour) = std::clamp(b + intensity_[2], Darkest, Brightest);
+        const int r = std::get<0>(pixel_colour);
+        const int g = std::get<1>(pixel_colour);
+        const int b = std::get<2>(pixel_colour);
+        // std::cout << std::clamp(r + intensity_[0], Darkest, Brightest) << std::endl;
+        std::get<0>(pixel_colour) = static_cast<unsigned int>(std::clamp(r + intensity_[0], Darkest, Brightest));
+        std::get<1>(pixel_colour) = static_cast<unsigned int>(std::clamp(g + intensity_[1], Darkest, Brightest));
+        std::get<2>(pixel_colour) = static_cast<unsigned int>(std::clamp(b + intensity_[2], Darkest, Brightest));
     }
 }
 
@@ -91,7 +135,17 @@ filters::negative::negative() : image_{}
 {
 }
 
-void filters::negative::set_span(std::span<data::colour_data::pixel_colour_t> image)
+filters::negative::negative(const filters::negative &obj) : image_{obj.image_}
+{
+}
+
+filters::negative &filters::negative::operator=(const filters::negative &obj)
+{
+    image_ = obj.image_;
+    return *this;
+}
+
+void filters::negative::set_span(std::span<data::pixel_colour_t> image)
 {
     image_ = image;
 }
@@ -141,7 +195,28 @@ filters::contrast::contrast(int value) : image_{},
     assert((value >= -100 && value <= 100));
 }
 
-void filters::contrast::set_span(std::span<data::colour_data::pixel_colour_t> image)
+filters::contrast::contrast(const filters::contrast &obj) : image_{obj.image_},
+                                                            f_value_{obj.f_value_},
+                                                            contrast_effect_matrix_{
+                                                                {f_value_, 0, 0, 128.0},
+                                                                {0, f_value_, 0, 128.0},
+                                                                {0, 0, f_value_, 128.0},
+                                                                {0, 0, 0, 1.0}}
+{
+}
+filters::contrast &filters::contrast::operator=(const filters::contrast &obj)
+{
+    image_ = obj.image_;
+    f_value_ = obj.f_value_;
+
+    for (int i = 0; i < 4; ++i)
+        for (int j = 0; j < 4; ++j)
+            contrast_effect_matrix_[i][j] = obj.contrast_effect_matrix_[i][j];
+
+    return *this;
+}
+
+void filters::contrast::set_span(std::span<data::pixel_colour_t> image)
 {
     image_ = image;
 }
@@ -187,7 +262,18 @@ filters::gamma_correction::gamma_correction(double value) : image_{},
     assert((f_value_ != 0.0));
 }
 
-void filters::gamma_correction::set_span(std::span<data::colour_data::pixel_colour_t> image)
+filters::gamma_correction::gamma_correction(const gamma_correction &obj) : image_{obj.image_},
+                                                                           f_value_{obj.f_value_}
+{
+}
+filters::gamma_correction &filters::gamma_correction::operator=(const filters::gamma_correction &obj)
+{
+    image_ = obj.image_;
+    f_value_ = obj.f_value_;
+    return *this;
+}
+
+void filters::gamma_correction::set_span(std::span<data::pixel_colour_t> image)
 {
     image_ = image;
 }
